@@ -1,6 +1,8 @@
 import paho.mqtt.client as mqtt
 import time
 import openai
+import grovepi
+
 
 openai.api_key = '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'
 
