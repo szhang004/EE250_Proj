@@ -1,25 +1,46 @@
-from flask import Flask, request, jsonify
+import paho.mqtt.client as mqtt
+import time
 import openai
 
 openai.api_key = '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'
 
+def on_connect(client, userdata, flags, rc):
+    print("Connected to server (i.e., broker) with result code "+str(rc))
 
-app = Flask(__name__)
+    client.subscribe("wt/client1", 1)
+    client.message_callback_add("wt/client1", client1_callback)
 
-@app.route('/submit', methods=['POST'])
-def receive_data():
-    # Check if the request contains JSON data
-    if request.is_json:
-        # Get JSON data from the request
-        data = request.get_json()
-        
-        # Log the received data (or process it as needed)
-        print(data)
-        
-        # Send a response back to the client
-        return jsonify({"message": "Data received successfully"}), 200
-    else:
-        return jsonify({"message": "Request does not contain JSON data"}), 400
+    client.subscribe("wt/client2", 1)
+    client.message_callback_add("wt/client2", client2_callback)
+
+#Default message callback. Please use custom callbacks.
+def on_message(client, userdata, msg):
+    print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
+
+def client1_callback(client, userdata, msg):
+    audio_file = msg.payload
+    transcript = openai.Audio.transcribe("whisper-1", audio_file)
+    client.publish("wt/server", transcript)
+
+
+def client2_callback(client, userdata, msg):
+    audio_file = msg.payload
+    transcript = openai.Audio.transcribe("whisper-1", audio_file)
+    client.publish("wt/server", transcript)
+
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    #this section is covered in publisher_and_subscriber_example.py
+    client = mqtt.Client()
+    client.on_message = on_message
+    client.on_connect = on_connect
+    client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
+    client.loop_start()
+
+    while True:
+        dist = grovepi.ultrasonicRead(ultrasonic_sensor)
+        button_pressed = grovepi.digitalRead(button)
+        if (button_pressed):
+            client.publish("mannygim/button", "Button pressed!")
+        client.publish("mannygim/ultrasonicRanger", str(dist))
+        time.sleep(1)

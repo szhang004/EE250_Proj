@@ -1,0 +1,14 @@
+if press buttton:
+    turn on microphone ADC for 5 seconds
+    collect data and encrypt 
+    send message to flask server
+
+if server receive json:
+    use chat api to transcibe
+    post to html server
+    send json to other node
+
+if press button2:
+    request most recent message on server
+
+

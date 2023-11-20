@@ -1,5 +1,10 @@
-import requests
+
+import paho.mqtt.client as mqtt
+import time
 import grovepi
+from grove_rgb_lcd import *
+
+import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 import time
 
 import os
@@ -12,42 +17,57 @@ SPI_PORT   = 0
 SPI_DEVICE = 0
 mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
-# URL of the server endpoint you want to send data to
-url = 'http://<Your_Server_IP>:5000/submit'
+button_speak = 1
+button_hear = 2
 
-# Sensor connected to port D4 (for example, a temperature sensor)
-sensor_port = 4
-grovepi.pinMode(sensor_port, "INPUT")
+GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
+GPIO.setup(button_speak, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) 
+GPIO.setup(button_hear, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) 
 
-while True:
-    try:
+values = []
+
+
+def on_connect(client, userdata, flags, rc):
+    print("Connected to server (i.e., broker) with result code "+str(rc))
+
+    #subscribe to topics of interest here
+    client.subscribe("wt/server", 1)
+    client.message_callback_add("wt/server", server_callback)
+
+def on_message(client, userdata, msg):
+    print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
+
+def server_callback(client, userdata, msg):
+    for num in msg.payload:
         
-        values[i] = mcp.read_adc(i)
+        time.sleep(20/1000000.0)
+    
 
-        # Read from the sensor (this function will depend on your sensor type)
-        sensor_value = grovepi.analogRead(sensor_port)
+if __name__ == '__main__':
+    #this section is covered in publisher_and_subscriber_example.py
+    client = mqtt.Client()
+    client.on_message = on_message
+    client.on_connect = on_connect
+    client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
+    client.loop_start()
 
-        # audio_file = open("/audio.mp3", "rb")
-        # transcript = openai.Audio.transcribe("whisper-1", audio_file)
-        # print(transcript)
+    speak_on = False
+    hear_on = False
+    mic_readings = []
 
-        # Here we're just sending the raw value, but you might want to
-        # apply some conversion to get meaningful data from your sensor
-        data = {'sensor_value': sensor_value}
+    while True:
 
-        # Send the data as a POST request to the server
-        response = requests.post(url, json=data)
+        if GPIO.input(button_speak) == GPIO.HIGH m:
 
-        # Check the response from the server
-        if response.status_code == 200:
-            print('Data sent successfully')
-        else:
-            print('Failed to send data: ', response.text)
+            if speak_on == True:
+                client.publish("wt/client1", mic_readings)
+                mic_readings = []
+                speak_on = False
 
-        # Wait for a while before sending the next reading
-        time.sleep(10)
+            else:
+                speak_on = True
 
-    except IOError:
-        print("Error reading from the sensor")
-    except requests.RequestException as e:
-        print("Error sending request to the server: ", e)
+        if speak_on == True:
+            mic_readings.append(mcp.read_adc(0))
+
+        time.sleep(20/1000000.0)
