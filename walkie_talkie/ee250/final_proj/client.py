@@ -50,7 +50,7 @@ if __name__ == '__main__':
 
         # print(grovepi.digitalRead(button_speak))
         if grovepi.digitalRead(button_speak):
-            time.sleep(1)
+            time.sleep(0.1)
 
             print("PRESSED")
         
