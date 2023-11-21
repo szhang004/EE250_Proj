@@ -60,15 +60,16 @@ if __name__ == '__main__':
     setText_norefresh("hello")
     while True:
 
-        button_stat = grovepi.digitalRead(button_speak)
-        # print(button_stat)
-        if button_stat:
-
-            time.sleep(.2)
-                
-            speak_on = True
-            mic_readings = []
-            print("Speak")
+        if not speak_on:
+            button_stat = grovepi.digitalRead(button_speak)
+            # print(button_stat)
+            if button_stat:
+    
+                time.sleep(.2)
+                    
+                speak_on = True
+                mic_readings = []
+                print("Speak")
 
         if speak_on:
             print("Listening")
