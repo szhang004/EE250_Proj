@@ -54,18 +54,21 @@ if __name__ == '__main__':
 
             print("PRESSED")
         
-            # if speak_on == True:
-            #     # msg = ''.join([chr(x) for x in mic_readings])
-            #     client.publish("wt/client1", msg)
-            #     print(mic_readings)
-            #     mic_readings = []
-            #     speak_on = False
+            if speak_on == True:
+                # msg = ''.join([chr(x) for x in mic_readings])
+                # client.publish("wt/client1", msg)
+                # print(mic_readings)
+                # mic_readings = []
 
-            # else:
-            #     speak_on = True
-            #     print("Speak")
+                print("Message Over")
+                speak_on = False
+
+            else:
+                speak_on = True
+                print("Speak")
 
         if speak_on == True:
-            mic_readings.append(mcp.read_adc(0))
+            print("Listening")
+            # mic_readings.append(mcp.read_adc(0))
 
         time.sleep(20/1000000.0)
