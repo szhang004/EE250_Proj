@@ -59,7 +59,9 @@ if __name__ == '__main__':
     setText_norefresh("hello")
     while True:
 
-        if grovepi.digitalRead(button_speak):
+        button_stat = grovepi.digitalRead(button_speak)
+        
+        if button_stat:
 
             time.sleep(.5)
 
