@@ -50,7 +50,7 @@ if __name__ == '__main__':
     while True:
 
         if grovepi.digitalRead(button_speak):
-            while(grovepi.digitalRead(button_speak){}
+            while(grovepi.digitalRead(button_speak)){}
             
             if speak_on == True:
                 client.publish("wt/client1", mic_readings)
