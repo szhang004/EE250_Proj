@@ -1,7 +1,7 @@
 
 import paho.mqtt.client as mqtt
 import time
-
+import sys
 # By appending the folder of all the GrovePi libraries to the system path here,
 # we are successfully `import grovepi`
 sys.path.append('../../Software/Python/')
