@@ -71,7 +71,7 @@ if __name__ == '__main__':
                 mic_readings = []
                 print("Speak")
         else:
-            print("Listening")
+            
             mic_readings.append(mcp.read_adc(0))
             # print(mic_readings)
             count += 1   
