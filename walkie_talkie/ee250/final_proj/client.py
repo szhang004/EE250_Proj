@@ -2,7 +2,7 @@
 import paho.mqtt.client as mqtt
 import time
 import sys
-import RPi.GPIO as GPIO
+
 
 # By appending the folder of all the GrovePi libraries to the system path here,
 # we are successfully `import grovepi`
@@ -26,14 +26,6 @@ SPI_PORT   = 0
 SPI_DEVICE = 0
 mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
-# GPIO.setmode(GPIO.BOARD)
-
-button_speak = 6
-# grovepi.pinMode(button_speak,"INPUT")
-
-# GPIO.setup(button_speak, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
-values = []
 
 
 def on_connect(client, userdata, flags, rc):
@@ -69,9 +61,7 @@ if __name__ == '__main__':
     while True:
 
         if not speak_on:
-            # button_stat = grovepi.digitalRead(button_speak)
-            # button_stat = GPIO.input(button_speak)
-            # print(button_stat)
+            
             if button.is_pressed:
     
                 time.sleep(.2)
