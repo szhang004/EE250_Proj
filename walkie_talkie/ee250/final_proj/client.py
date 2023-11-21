@@ -18,6 +18,9 @@ import smbus
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 
+from gpiozero import Button
+button = Button(16)
+
 # Hardware SPI configuration:
 SPI_PORT   = 0
 SPI_DEVICE = 0
@@ -26,7 +29,7 @@ mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 GPIO.setmode(GPIO.BOARD)
 
 button_speak = 6
-grovepi.pinMode(button_speak,"INPUT")
+# grovepi.pinMode(button_speak,"INPUT")
 
 # GPIO.setup(button_speak, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
@@ -66,17 +69,17 @@ if __name__ == '__main__':
     while True:
 
         if not speak_on:
-            button_stat = grovepi.digitalRead(button_speak)
+            # button_stat = grovepi.digitalRead(button_speak)
             # button_stat = GPIO.input(button_speak)
             # print(button_stat)
-            if button_stat:
+            if button.is_pressed::
     
                 time.sleep(.2)
                     
                 speak_on = True
                 mic_readings = []
                 print("Speak")
-                button_stat = 0
+                # button_stat = 0
         else:
             
             mic_readings.append(mcp.read_adc(0))
