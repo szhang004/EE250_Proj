@@ -1,10 +1,12 @@
 import paho.mqtt.client as mqtt
 import time
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key='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')
 # import grovepi
 
 
-openai.api_key = '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'
+
 
 def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
@@ -22,13 +24,13 @@ def on_message(client, userdata, msg):
 def client1_callback(client, userdata, msg):
     print(msg.payload)
     audio_file = msg.payload
-    transcript = openai.Audio.transcribe("whisper-1", audio_file)
+    transcript = client.audio.transcribe("whisper-1", audio_file)
     client.publish("wt/server", transcript)
 
 
 def client2_callback(client, userdata, msg):
     audio_file = msg.payload
-    transcript = openai.Audio.transcribe("whisper-1", audio_file)
+    transcript = client.audio.transcribe("whisper-1", audio_file)
     client.publish("wt/server", transcript)
 
 
