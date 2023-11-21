@@ -56,7 +56,7 @@ if __name__ == '__main__':
     mic_readings = []
 
     
-    # setText_norefresh("hello")
+    setText_norefresh("hello")
     while True:
 
         button_stat = grovepi.digitalRead(button_speak)
@@ -68,9 +68,9 @@ if __name__ == '__main__':
             # print("PRESSED")
         
             if speak_on == True:
-                msg = ''.join([chr(x) for x in mic_readings])
-                client.publish("wt/client1", msg)
-                print(msg)
+                # msg = ''.join([chr(x) for x in mic_readings])
+                # client.publish("wt/client1", msg)
+                # print(msg)
 
                 print("Message Over")
                 speak_on = False
@@ -81,8 +81,8 @@ if __name__ == '__main__':
                 print("Speak")
 
         if speak_on:
-            # print("Listening")
-            mic_readings.append(mcp.read_adc(0))
+            print("Listening")
+            # mic_readings.append(mcp.read_adc(0))
             # print(mic_readings)
 
         time.sleep(20/1000000.0)
