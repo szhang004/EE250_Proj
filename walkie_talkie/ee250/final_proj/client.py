@@ -56,7 +56,7 @@ if __name__ == '__main__':
     mic_readings = []
 
     
-    setText_norefresh("hello")
+    # setText_norefresh("hello")
     while True:
 
         button_stat = grovepi.digitalRead(button_speak)
