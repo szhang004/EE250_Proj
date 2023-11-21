@@ -50,14 +50,16 @@ if __name__ == '__main__':
     while True:
 
         if grovepi.digitalRead(button_speak) == 1:
-
+            
             if speak_on == True:
                 client.publish("wt/client1", mic_readings)
+                print(mic_readings)
                 mic_readings = []
                 speak_on = False
 
             else:
                 speak_on = True
+                print("Speak")
 
         if speak_on == True:
             mic_readings.append(mcp.read_adc(0))
