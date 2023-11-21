@@ -78,6 +78,8 @@ if __name__ == '__main__':
             if count == 250000:
                 msg = ''.join([chr(x) for x in mic_readings])
                 client.publish("wt/client1", msg)
+                print("Message over")
+            
                 speak_on = False
                 count = 0
         
