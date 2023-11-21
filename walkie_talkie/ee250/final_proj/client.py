@@ -54,6 +54,7 @@ if __name__ == '__main__':
 
     speak_on = False
     mic_readings = []
+    count = 0
 
     
     setText_norefresh("hello")
@@ -63,26 +64,22 @@ if __name__ == '__main__':
         # print(button_stat)
         if button_stat:
 
-            time.sleep(.5)
-
-            # print("PRESSED")
-        
-            if speak_on == True:
-                msg = ''.join([chr(x) for x in mic_readings])
-                client.publish("wt/client1", msg)
-                # print(msg)
-
-                print("Message Over")
-                speak_on = False
-
-            else:
-                speak_on = True
-                mic_readings = []
-                print("Speak")
+            time.sleep(.2)
+                
+            speak_on = True
+            mic_readings = []
+            print("Speak")
 
         if speak_on:
             print("Listening")
             mic_readings.append(mcp.read_adc(0))
             # print(mic_readings)
-
+            count += 1   
+            if count == 250000:
+                msg = ''.join([chr(x) for x in mic_readings])
+                client.publish("wt/client1", msg)
+                speak_on = False
+                count = 0
+        
+        
         time.sleep(20/1000000.0)
