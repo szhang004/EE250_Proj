@@ -76,6 +76,7 @@ if __name__ == '__main__':
                 speak_on = True
                 mic_readings = []
                 print("Speak")
+                button_stat = 0
         else:
             
             mic_readings.append(mcp.read_adc(0))
