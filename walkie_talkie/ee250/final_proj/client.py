@@ -49,9 +49,8 @@ if __name__ == '__main__':
 
     while True:
 
-        if not grovepi.digitalRead(button_speak):
-            while grovepi.digitalRead(button_speak):
-                print("debounce")
+        if grovepi.digitalRead(button_speak):
+            time.sleep(.1)
         
             if speak_on == True:
                 client.publish("wt/client1", mic_readings)
