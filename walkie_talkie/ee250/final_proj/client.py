@@ -25,10 +25,10 @@ mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
 GPIO.setmode(GPIO.BOARD)
 
-button_speak = 16
-# grovepi.pinMode(button_speak,"INPUT")
+button_speak = 6
+grovepi.pinMode(button_speak,"INPUT")
 
-GPIO.setup(button_speak, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+# GPIO.setup(button_speak, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 values = []
 
@@ -66,8 +66,8 @@ if __name__ == '__main__':
     while True:
 
         if not speak_on:
-            # button_stat = grovepi.digitalRead(button_speak)
-            button_stat = GPIO.input(button_speak)
+            button_stat = grovepi.digitalRead(button_speak)
+            # button_stat = GPIO.input(button_speak)
             # print(button_stat)
             if button_stat:
     
