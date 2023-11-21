@@ -72,7 +72,7 @@ if __name__ == '__main__':
             # button_stat = grovepi.digitalRead(button_speak)
             # button_stat = GPIO.input(button_speak)
             # print(button_stat)
-            if button.is_pressed::
+            if button.is_pressed:
     
                 time.sleep(.2)
                     
