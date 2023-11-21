@@ -68,7 +68,7 @@ if __name__ == '__main__':
             if speak_on == True:
                 msg = ''.join([chr(x) for x in mic_readings])
                 client.publish("wt/client1", msg)
-                print(mic_readings)
+                print(msg)
                 mic_readings = []
 
                 print("Message Over")
