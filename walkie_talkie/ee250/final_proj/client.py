@@ -51,7 +51,8 @@ if __name__ == '__main__':
 
         if grovepi.digitalRead(button_speak):
             while grovepi.digitalRead(button_speak):
-            
+                print("debounce")
+        
             if speak_on == True:
                 client.publish("wt/client1", mic_readings)
                 print(mic_readings)
