@@ -1,7 +1,7 @@
 import paho.mqtt.client as mqtt
 import time
 import openai
-import grovepi
+# import grovepi
 
 
 openai.api_key = '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'
@@ -40,9 +40,4 @@ if __name__ == '__main__':
     client.loop_start()
 
     while True:
-        dist = grovepi.ultrasonicRead(ultrasonic_sensor)
-        button_pressed = grovepi.digitalRead(button)
-        if (button_pressed):
-            client.publish("mannygim/button", "Button pressed!")
-        client.publish("mannygim/ultrasonicRanger", str(dist))
-        time.sleep(1)
+        
