@@ -12,7 +12,7 @@ SPI_PORT   = 0
 SPI_DEVICE = 0
 mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
-button_speak = 3
+button_speak = 2
 grovepi.pinMode(button_speak,"INPUT")
 
 
@@ -49,7 +49,7 @@ if __name__ == '__main__':
 
     while True:
 
-        if grovepi.digitalRead(button_speak) == 1:
+        if grovepi.digitalRead(button_speak):
             
             if speak_on == True:
                 client.publish("wt/client1", mic_readings)
