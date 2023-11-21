@@ -1,8 +1,17 @@
 
 import paho.mqtt.client as mqtt
 import time
+
+# By appending the folder of all the GrovePi libraries to the system path here,
+# we are successfully `import grovepi`
+sys.path.append('../../Software/Python/')
+# This append is to support importing the LCD library.
+sys.path.append('../../Software/Python/grove_rgb_lcd')
+
+
 import grovepi
 from grove_rgb_lcd import *
+import smbus
 
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
@@ -46,6 +55,8 @@ if __name__ == '__main__':
     speak_on = False
     mic_readings = []
 
+    
+    setText_norefresh("hello"))
     while True:
 
         # print(grovepi.digitalRead(button_speak))
