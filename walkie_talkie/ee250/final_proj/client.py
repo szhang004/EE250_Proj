@@ -48,21 +48,21 @@ if __name__ == '__main__':
 
     while True:
 
-        print(grovepi.digitalRead(button_speak))
-        # if grovepi.digitalRead(button_speak):
-        #     time.sleep(.1)
+        # print(grovepi.digitalRead(button_speak))
+        if grovepi.digitalRead(button_speak):
+            time.sleep(.1)
         
-        #     if speak_on == True:
-        #         client.publish("wt/client1", mic_readings)
-        #         print(mic_readings)
-        #         mic_readings = []
-        #         speak_on = False
+            if speak_on == True:
+                client.publish("wt/client1", mic_readings)
+                print(mic_readings)
+                mic_readings = []
+                speak_on = False
 
-        #     else:
-        #         speak_on = True
-        #         print("Speak")
+            else:
+                speak_on = True
+                print("Speak")
 
-        # if speak_on == True:
-        #     mic_readings.append(mcp.read_adc(0))
+        if speak_on == True:
+            mic_readings.append(mcp.read_adc(0))
 
         time.sleep(20/1000000.0)
