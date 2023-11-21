@@ -82,7 +82,7 @@ if __name__ == '__main__':
 
         if speak_on:
             print("Listening")
-            mic_readings.append(mcp.read_adc(0))
-            print(mic_readings)
+            # mic_readings.append(mcp.read_adc(0))
+            # print(mic_readings)
 
         time.sleep(20/1000000.0)
