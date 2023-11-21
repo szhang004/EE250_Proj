@@ -4,11 +4,6 @@ import time
 import grovepi
 from grove_rgb_lcd import *
 
-import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
-import time
-
-import os
-
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 
