@@ -20,6 +20,7 @@ def on_message(client, userdata, msg):
     print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
 
 def client1_callback(client, userdata, msg):
+    print(msg.payload)
     audio_file = msg.payload
     transcript = openai.Audio.transcribe("whisper-1", audio_file)
     client.publish("wt/server", transcript)
