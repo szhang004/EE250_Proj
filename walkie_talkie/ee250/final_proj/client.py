@@ -80,6 +80,6 @@ if __name__ == '__main__':
 
         if speak_on == True:
             print("Listening")
-            # mic_readings.append(mcp.read_adc(0))
+            mic_readings.append(mcp.read_adc(0))
 
         time.sleep(20/1000000.0)
