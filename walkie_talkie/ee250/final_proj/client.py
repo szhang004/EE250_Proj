@@ -60,12 +60,12 @@ if __name__ == '__main__':
     while True:
 
         button_stat = grovepi.digitalRead(button_speak)
-        
+        print(button_stat)
         if button_stat:
 
             time.sleep(.5)
 
-            print("PRESSED")
+            # print("PRESSED")
         
             if speak_on == True:
                 msg = ''.join([chr(x) for x in mic_readings])
@@ -81,7 +81,7 @@ if __name__ == '__main__':
                 print("Speak")
 
         if speak_on:
-            print("Listening")
+            # print("Listening")
             # mic_readings.append(mcp.read_adc(0))
             # print(mic_readings)
 
