@@ -60,7 +60,7 @@ if __name__ == '__main__':
     while True:
 
         button_stat = grovepi.digitalRead(button_speak)
-        print(button_stat)
+        # print(button_stat)
         if button_stat:
 
             time.sleep(.5)
