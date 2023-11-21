@@ -59,20 +59,17 @@ if __name__ == '__main__':
     setText_norefresh("hello")
     while True:
 
-        # print(grovepi.digitalRead(button_speak))
         if grovepi.digitalRead(button_speak):
-            # while grovepi.digitalRead(button_speak):
-            #     print("wait")
 
             time.sleep(.5)
 
             print("PRESSED")
         
             if speak_on == True:
-                # msg = ''.join([chr(x) for x in mic_readings])
-                # client.publish("wt/client1", msg)
-                # print(mic_readings)
-                # mic_readings = []
+                msg = ''.join([chr(x) for x in mic_readings])
+                client.publish("wt/client1", msg)
+                print(mic_readings)
+                mic_readings = []
 
                 print("Message Over")
                 speak_on = False
