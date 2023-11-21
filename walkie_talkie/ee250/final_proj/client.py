@@ -70,8 +70,7 @@ if __name__ == '__main__':
                 speak_on = True
                 mic_readings = []
                 print("Speak")
-
-        if speak_on:
+        else:
             print("Listening")
             mic_readings.append(mcp.read_adc(0))
             # print(mic_readings)
