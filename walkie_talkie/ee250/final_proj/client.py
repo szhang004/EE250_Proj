@@ -75,6 +75,7 @@ if __name__ == '__main__':
             mic_readings.append(mcp.read_adc(0))
             # print(mic_readings)
             count += 1   
+            print(count)
             if count == 250000:
                 msg = ''.join([chr(x) for x in mic_readings])
                 client.publish("wt/client1", msg)
