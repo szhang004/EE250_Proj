@@ -22,13 +22,13 @@ def on_message(client, userdata, msg):
 def client1_callback(client, userdata, msg):
     print(msg.payload)
     audio_file = msg.payload
-    transcript = client.Audio.transcribe("whisper-1", audio_file)
+    transcript = openai.Audio.transcribe("whisper-1", audio_file)
     client.publish("wt/server", transcript)
 
 
 def client2_callback(client, userdata, msg):
     audio_file = msg.payload
-    transcript = client.Audio.transcribe("whisper-1", audio_file)
+    transcript = openai.Audio.transcribe("whisper-1", audio_file)
     client.publish("wt/server", transcript)
 
 
