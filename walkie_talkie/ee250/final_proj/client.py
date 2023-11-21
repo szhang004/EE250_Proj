@@ -76,7 +76,7 @@ if __name__ == '__main__':
             # print(mic_readings)
             count += 1   
             print(count)
-            if count == 250000:
+            if count == 25000:
                 msg = ''.join([chr(x) for x in mic_readings])
                 client.publish("wt/client1", msg)
                 print("Message over")
