@@ -49,7 +49,7 @@ if __name__ == '__main__':
 
     while True:
 
-        if grovepi.digitalRead(button_speak):
+        if not grovepi.digitalRead(button_speak):
             while grovepi.digitalRead(button_speak):
                 print("debounce")
         
