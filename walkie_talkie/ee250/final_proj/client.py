@@ -66,8 +66,8 @@ if __name__ == '__main__':
     while True:
 
         if not speak_on:
-            # button_stat = grovepi.digitalRead(button_speak)
-            button_stat = GPIO.input(button_speak)
+            button_stat = grovepi.digitalRead(button_speak)
+            # button_stat = GPIO.input(button_speak)
             # print(button_stat)
             if button_stat:
     
