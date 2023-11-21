@@ -53,8 +53,8 @@ if __name__ == '__main__':
             time.sleep(.1)
         
             if speak_on == True:
-                msg = ''.join([chr(x) for x in mic_readings])
-                client.publish("wt/client1", msg)
+                # msg = ''.join([chr(x) for x in mic_readings])
+                # client.publish("wt/client1", msg)
                 print(mic_readings)
                 mic_readings = []
                 speak_on = False
