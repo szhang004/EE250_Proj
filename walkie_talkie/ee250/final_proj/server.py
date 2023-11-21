@@ -40,4 +40,4 @@ if __name__ == '__main__':
     client.loop_start()
 
     while True:
-        
+        time.sleep(.1)
