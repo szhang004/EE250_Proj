@@ -22,15 +22,33 @@ def on_message(client, userdata, msg):
     print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
 
 def client1_callback(client, userdata, msg):
-    print(msg.payload)
-    audio_file = msg.payload
-    transcript = client.audio.transcribe("whisper-1", audio_file)
+    byte_string = msg.payload
+
+    audio_bytes = bytes(byte_string, 'utf-8')
+
+    # The format will depend on the format of your raw audio data
+    audio_segment = AudioSegment.from_raw(io.BytesIO(audio_bytes), sample_width=2, frame_rate=44100, channels=2)
+
+    # Export to an MP3 file
+    audio_segment.export("output.mp3", format="mp3")
+
+    audio_file = open("/output.mp3", "rb")
+    transcript = openai.Audio.transcribe("whisper-1", audio_file)
     client.publish("wt/server", transcript)
 
-
 def client2_callback(client, userdata, msg):
-    audio_file = msg.payload
-    transcript = client.audio.transcribe("whisper-1", audio_file)
+    byte_string = msg.payload
+
+    audio_bytes = bytes(byte_string, 'utf-8')
+
+    # The format will depend on the format of your raw audio data
+    audio_segment = AudioSegment.from_raw(io.BytesIO(audio_bytes), sample_width=2, frame_rate=44100, channels=2)
+
+    # Export to an MP3 file
+    audio_segment.export("output.mp3", format="mp3")
+
+    audio_file = open("/output.mp3", "rb")
+    transcript = openai.Audio.transcribe("whisper-1", audio_file)
     client.publish("wt/server", transcript)
 
 
