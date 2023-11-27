@@ -4,7 +4,7 @@ import openai
 from pydub import AudioSegment
 import io
 
-openai.api_key='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'
+openai.api_key= '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'
 # import grovepi
 
 
