@@ -22,7 +22,7 @@ def create_wav_from_analog(analog_data, filename="output.wav", sample_rate=50000
         wav_file.setparams((nchannels, sampwidth, framerate, nframes, comptype, compname))
         
         # Write raw data
-        wav_file.writeframes(analog_data.tobytes())
+        wav_file.writeframes(analog_data)
 
 
 def on_connect(client, userdata, flags, rc):
