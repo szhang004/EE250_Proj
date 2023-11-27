@@ -7,7 +7,22 @@ import io
 openai.api_key= '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'
 # import grovepi
 
+import wave
 
+def create_wav_from_analog(analog_data, filename="output.wav", sample_rate=50000):
+    with wave.open(filename, "wb") as wav_file:
+        nchannels = 1
+        sampwidth = 1  # 1 byte for 8 bit
+        framerate = sample_rate
+        nframes = len(analog_data)
+        comptype = "NONE"
+        compname = "not compressed"
+
+        # Set parameters
+        wav_file.setparams((nchannels, sampwidth, framerate, nframes, comptype, compname))
+        
+        # Write raw data
+        wav_file.writeframes(analog_data.tobytes())
 
 
 def on_connect(client, userdata, flags, rc):
@@ -27,10 +42,13 @@ def client1_callback(client, userdata, msg):
     byte_string = msg.payload
 
     audio_bytes = bytearray(byte_string)
+    create_wav_from_analog(audio_bytes)
     print(audio_bytes)
 
     # The format will depend on the format of your raw audio data
-    audio_segment = AudioSegment.from_raw(io.BytesIO(audio_bytes), sample_width=2, frame_rate=44100, channels=2)
+    # audio_segment = AudioSegment.from_raw(io.BytesIO(audio_bytes), sample_width=2, frame_rate=44100, channels=2)
+
+    audio_segment = AudioSegment.from_wav("output.wav")
 
     # Export to an MP3 file
     audio_segment.export("output.mp3", format="mp3")
@@ -45,11 +63,13 @@ def client2_callback(client, userdata, msg):
     byte_string = msg.payload
 
     audio_bytes = bytearray(byte_string)
+    create_wav_from_analog(audio_bytes)
     print(audio_bytes)
 
-
     # The format will depend on the format of your raw audio data
-    audio_segment = AudioSegment.from_raw(io.BytesIO(audio_bytes), sample_width=2, frame_rate=44100, channels=2)
+    # audio_segment = AudioSegment.from_raw(io.BytesIO(audio_bytes), sample_width=2, frame_rate=44100, channels=2)
+
+    audio_segment = AudioSegment.from_wav("output.wav")
 
     # Export to an MP3 file
     audio_segment.export("output.mp3", format="mp3")
