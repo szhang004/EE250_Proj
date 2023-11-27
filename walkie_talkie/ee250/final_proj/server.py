@@ -6,7 +6,7 @@ import openai
 from pydub import AudioSegment
 import io
 
-app = Flask(__name__)
+app = Flask('walkie_talkie')
 
 openai.api_key= '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'
 # import grovepi
@@ -102,8 +102,7 @@ if __name__ == '__main__':
     client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
     client.loop_start()
 
-    app.run(debug=True, use_reloader=False)  # use_reloader=False is important here
-
+    app.run(debug=False, host='0.0.0.0', port=5000)
 
     while True:
         time.sleep(.1)
