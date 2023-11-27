@@ -43,7 +43,7 @@ def client1_callback(client, userdata, msg):
 
     # audio_bytes = bytearray(byte_string)
     create_wav_from_analog(byte_string)
-    print(audio_bytes)
+    # print(audio_bytes)
 
     # The format will depend on the format of your raw audio data
     # audio_segment = AudioSegment.from_raw(io.BytesIO(audio_bytes), sample_width=2, frame_rate=44100, channels=2)
@@ -64,7 +64,7 @@ def client2_callback(client, userdata, msg):
 
     # audio_bytes = bytearray(byte_string)
     create_wav_from_analog(byte_string)
-    print(audio_bytes)
+    # print(audio_bytes)
 
     # The format will depend on the format of your raw audio data
     # audio_segment = AudioSegment.from_raw(io.BytesIO(audio_bytes), sample_width=2, frame_rate=44100, channels=2)
