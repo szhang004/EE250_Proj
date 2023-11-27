@@ -61,6 +61,7 @@ def client1_callback(client, userdata, msg):
     byte_string = msg.payload
 
     # audio_bytes = bytearray(byte_string)
+    global transcript
     transcript = process_audio(byte_string)
 
     with app.app_context():
@@ -75,6 +76,7 @@ def client2_callback(client, userdata, msg):
     byte_string = msg.payload
 
     # audio_bytes = bytearray(byte_string)
+    global transcript
     transcript = process_audio(byte_string)
 
     with app.app_context():
