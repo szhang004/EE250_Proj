@@ -1,8 +1,12 @@
+from flask import Flask, jsonify
+
 import paho.mqtt.client as mqtt
 import time
 import openai
 from pydub import AudioSegment
 import io
+
+app = Flask(__name__)
 
 openai.api_key= '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'
 # import grovepi
@@ -38,6 +42,7 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
 
+@app.route('/publish/message')
 def client1_callback(client, userdata, msg):
     byte_string = msg.payload
 
@@ -58,7 +63,10 @@ def client1_callback(client, userdata, msg):
     client.publish("wt/server", transcript['text'])
     print(transcript['text'])
 
+    return render_template('display.html', user_input=transcript['text'])
 
+
+@app.route('/publish/message')
 def client2_callback(client, userdata, msg):
     byte_string = msg.payload
 
@@ -79,6 +87,16 @@ def client2_callback(client, userdata, msg):
     client.publish("wt/server", transcript['text'])
     print(transcript['text'])
 
+    return render_template('display.html', user_input=transcript['text'])
+    
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+if __name__ == '__main__':
+    app.run(debug=True, use_reloader=False)  # use_reloader=False is important here
+
 
 if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py
@@ -87,6 +105,9 @@ if __name__ == '__main__':
     client.on_connect = on_connect
     client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
     client.loop_start()
+
+    app.run(debug=True, use_reloader=False)  # use_reloader=False is important here
+
 
     while True:
         time.sleep(.1)
