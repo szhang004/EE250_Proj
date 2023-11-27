@@ -5,13 +5,15 @@ import time
 import openai
 from pydub import AudioSegment
 import io
+import wave
 
 app = Flask('final_proj')
 
 openai.api_key= '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'
 # import grovepi
 
-import wave
+transcript = None
+message_lock = threading.Lock()
 
 def create_wav_from_analog(analog_data, filename="output.wav", sample_rate=50000):
     with wave.open(filename, "wb") as wav_file:
@@ -61,10 +63,11 @@ def client1_callback(client, userdata, msg):
     audio_file = open("output.mp3", "rb")
 
     global transcript
-    transcript = openai.Audio.transcribe("whisper-1", audio_file)
-
-    client.publish("wt/server", transcript['text'])
-    print(transcript['text'])
+    with message_lock:
+        transcript = openai.Audio.transcribe("whisper-1", audio_file)
+    
+        client.publish("wt/server", transcript['text'])
+        print(transcript['text'])
     publish()
 
 
@@ -86,10 +89,11 @@ def client2_callback(client, userdata, msg):
     audio_file = open("output.mp3", "rb")
 
     global transcript
-    transcript = openai.Audio.transcribe("whisper-1", audio_file)
-
-    client.publish("wt/server", transcript['text'])
-    print(transcript['text'])
+    with message_lock:
+        transcript = openai.Audio.transcribe("whisper-1", audio_file)
+    
+        client.publish("wt/server", transcript['text'])
+        print(transcript['text'])
     publish()
     
     
@@ -100,7 +104,8 @@ def index():
 
 @app.route('/publish/message')
 def publish():
-    return render_template('display.html', user_input=transcript['text'])
+    with message_lock: 
+        return render_template('display.html', user_input=transcript['text'])
 
 client = mqtt.Client()
 client.on_message = on_message
@@ -112,7 +117,8 @@ client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
 
 if __name__ == '__main__':
 
-    client.loop_start()
+    mqtt_thread = threading.Thread(target=client.loop_forever)
+    mqtt_thread.start()
     app.run(debug=False)
 
     while True:
