@@ -39,7 +39,7 @@ def process_audio(analog_data, filename="output.wav", sample_rate=50000):
         audio_file = open("output.mp3", "rb")
 
         transcript = openai.Audio.transcribe("whisper-1", audio_file)
-        return transcript
+        return transcript['text']
         
 
 
@@ -65,9 +65,9 @@ def client1_callback(client, userdata, msg):
 
     with app.app_context():
         
-        client.publish("wt/server", transcript['text'])
+        client.publish("wt/server", transcript)
         
-        print(transcript['text'])
+        print(transcript)
     publish()
 
 
@@ -79,9 +79,9 @@ def client2_callback(client, userdata, msg):
 
     with app.app_context():
         
-        client.publish("wt/server", transcript['text'])
+        client.publish("wt/server", transcript)
 
-        print(transcript['text'])
+        print(transcript)
     publish()
     
     
@@ -93,7 +93,7 @@ def index():
 @app.route('/publish/message')
 def publish():
     with message_lock: 
-        return render_template('display.html', user_input=transcript['text'])
+        return render_template('display.html', user_input=transcript)
 
 client = mqtt.Client()
 client.on_message = on_message
