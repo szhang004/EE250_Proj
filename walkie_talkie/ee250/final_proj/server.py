@@ -42,7 +42,7 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
 
-@app.route('/publish/message')
+
 def client1_callback(client, userdata, msg):
     byte_string = msg.payload
 
@@ -59,14 +59,15 @@ def client1_callback(client, userdata, msg):
     audio_segment.export("output.mp3", format="mp3")
 
     audio_file = open("output.mp3", "rb")
+
+    global transcript
     transcript = openai.Audio.transcribe("whisper-1", audio_file)
+
     client.publish("wt/server", transcript['text'])
     print(transcript['text'])
+    publish()
 
-    return render_template('display.html', user_input=transcript['text'])
 
-
-@app.route('/publish/message')
 def client2_callback(client, userdata, msg):
     byte_string = msg.payload
 
@@ -83,20 +84,30 @@ def client2_callback(client, userdata, msg):
     audio_segment.export("output.mp3", format="mp3")
 
     audio_file = open("output.mp3", "rb")
+
+    global transcript
     transcript = openai.Audio.transcribe("whisper-1", audio_file)
+
     client.publish("wt/server", transcript['text'])
     print(transcript['text'])
-
-    return render_template('display.html', user_input=transcript['text'])
+    publish()
+    
     
 @app.route('/')
 def index():
     return render_template('index.html')
 
+
+@app.route('/publish/message')
+def publish():
+    return render_template('display.html', user_input=transcript['text'])
+
 client = mqtt.Client()
 client.on_message = on_message
 client.on_connect = on_connect
 client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
+
+
 
 
 if __name__ == '__main__':
