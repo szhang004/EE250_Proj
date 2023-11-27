@@ -39,9 +39,7 @@ def on_message(client, userdata, msg):
     print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
 
 def server_callback(client, userdata, msg):
-    for num in msg.payload:
-        
-        time.sleep(20/1000000.0)
+    setText_norefresh(msg.payload)
     
 
 if __name__ == '__main__':
