@@ -35,7 +35,7 @@ def client1_callback(client, userdata, msg):
     # Export to an MP3 file
     audio_segment.export("output.mp3", format="mp3")
 
-    audio_file = open("/output.mp3", "rb")
+    audio_file = open("output.mp3", "rb")
     transcript = openai.Audio.transcribe("whisper-1", audio_file)
     client.publish("wt/server", transcript)
 
@@ -50,7 +50,7 @@ def client2_callback(client, userdata, msg):
     # Export to an MP3 file
     audio_segment.export("output.mp3", format="mp3")
 
-    audio_file = open("/output.mp3", "rb")
+    audio_file = open("output.mp3", "rb")
     transcript = openai.Audio.transcribe("whisper-1", audio_file)
     client.publish("wt/server", transcript)
 
