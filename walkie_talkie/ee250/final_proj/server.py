@@ -6,7 +6,7 @@ import openai
 from pydub import AudioSegment
 import io
 
-app = Flask('walkie_talkie')
+app = Flask('final_proj')
 
 openai.api_key= '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'
 # import grovepi
