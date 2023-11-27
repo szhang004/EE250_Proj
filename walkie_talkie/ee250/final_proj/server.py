@@ -16,7 +16,7 @@ openai.api_key= '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'
 transcript = None
 message_lock = threading.Lock()
 
-def create_wav_from_analog(analog_data, filename="output.wav", sample_rate=50000):
+def process_audio(analog_data, filename="output.wav", sample_rate=50000):
     with wave.open(filename, "wb") as wav_file:
         nchannels = 1
         sampwidth = 1  # 1 byte for 8 bit
@@ -30,6 +30,17 @@ def create_wav_from_analog(analog_data, filename="output.wav", sample_rate=50000
         
         # Write raw data
         wav_file.writeframes(analog_data)
+        
+        audio_segment = AudioSegment.from_wav("output.wav")
+
+        # Export to an MP3 file
+        audio_segment.export("output.mp3", format="mp3")
+
+        audio_file = open("output.mp3", "rb")
+
+        transcript = openai.Audio.transcribe("whisper-1", audio_file)
+        return transcript
+        
 
 
 def on_connect(client, userdata, flags, rc):
@@ -50,24 +61,12 @@ def client1_callback(client, userdata, msg):
     byte_string = msg.payload
 
     # audio_bytes = bytearray(byte_string)
-    create_wav_from_analog(byte_string)
-    # print(audio_bytes)
+    transcript = process_audio(byte_string)
 
-    # The format will depend on the format of your raw audio data
-    # audio_segment = AudioSegment.from_raw(io.BytesIO(audio_bytes), sample_width=2, frame_rate=44100, channels=2)
-
-    audio_segment = AudioSegment.from_wav("output.wav")
-
-    # Export to an MP3 file
-    audio_segment.export("output.mp3", format="mp3")
-
-    audio_file = open("output.mp3", "rb")
-
-    global transcript
-    with message_lock:
-        transcript = openai.Audio.transcribe("whisper-1", audio_file)
-    
+    with app.app_context():
+        
         client.publish("wt/server", transcript['text'])
+        
         print(transcript['text'])
     publish()
 
@@ -76,24 +75,12 @@ def client2_callback(client, userdata, msg):
     byte_string = msg.payload
 
     # audio_bytes = bytearray(byte_string)
-    create_wav_from_analog(byte_string)
-    # print(audio_bytes)
+    transcript = process_audio(byte_string)
 
-    # The format will depend on the format of your raw audio data
-    # audio_segment = AudioSegment.from_raw(io.BytesIO(audio_bytes), sample_width=2, frame_rate=44100, channels=2)
-
-    audio_segment = AudioSegment.from_wav("output.wav")
-
-    # Export to an MP3 file
-    audio_segment.export("output.mp3", format="mp3")
-
-    audio_file = open("output.mp3", "rb")
-
-    global transcript
-    with message_lock:
-        transcript = openai.Audio.transcribe("whisper-1", audio_file)
-    
+    with app.app_context():
+        
         client.publish("wt/server", transcript['text'])
+
         print(transcript['text'])
     publish()
     
@@ -121,6 +108,3 @@ if __name__ == '__main__':
     mqtt_thread = threading.Thread(target=client.loop_forever)
     mqtt_thread.start()
     app.run(debug=False)
-
-    while True:
-        time.sleep(.1)
