@@ -95,10 +95,6 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False)  # use_reloader=False is important here
-
-
-if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py
     client = mqtt.Client()
     client.on_message = on_message
