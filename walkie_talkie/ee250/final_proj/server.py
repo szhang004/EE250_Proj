@@ -27,7 +27,7 @@ def on_message(client, userdata, msg):
 def client1_callback(client, userdata, msg):
     byte_string = msg.payload
 
-    audio_bytes = bytes(byte_string)
+    audio_bytes = bytearray(byte_string)
     print(audio_bytes)
 
     # The format will depend on the format of your raw audio data
@@ -43,7 +43,7 @@ def client1_callback(client, userdata, msg):
 def client2_callback(client, userdata, msg):
     byte_string = msg.payload
 
-    audio_bytes = bytes(byte_string)
+    audio_bytes = bytearray(byte_string)
     print(audio_bytes)
 
 
