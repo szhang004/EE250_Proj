@@ -97,11 +97,11 @@ client = mqtt.Client()
 client.on_message = on_message
 client.on_connect = on_connect
 client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
-client.loop_start()
 
 
 if __name__ == '__main__':
 
+    client.loop_start()
     app.run(debug=False)
 
     while True:
