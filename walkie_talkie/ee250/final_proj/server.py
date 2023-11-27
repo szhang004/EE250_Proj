@@ -91,7 +91,7 @@ def index():
 @app.route('/publish/message')
 def publish():
     # return render_template('display.html', user_input=transcript)
-    return redirect(url_for ('index')
+    return redirect(url_for ('index'))
 
 client = mqtt.Client()
 client.on_message = on_message
