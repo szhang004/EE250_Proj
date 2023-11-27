@@ -1,6 +1,6 @@
 import paho.mqtt.client as mqtt
 import time
-from openai import OpenAIas openai
+from openai import OpenAI as openai
 
 from pydub import AudioSegment
 import io
