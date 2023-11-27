@@ -68,7 +68,8 @@ if __name__ == '__main__':
                     
                 speak_on = True
                 mic_readings = []
-                print("Speak")
+                print("Speak Now")
+                setText_norefresh("Speak Now")
                 # button_stat = 0
         else:
             
@@ -80,6 +81,7 @@ if __name__ == '__main__':
                 msg = ''.join([chr(x) for x in mic_readings])
                 client.publish("wt/client1", msg)
                 print("Message over")
+                setText_norefresh("Message over")
             
                 speak_on = False
                 count = 0
