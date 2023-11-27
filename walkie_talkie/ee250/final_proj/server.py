@@ -2,6 +2,8 @@ import paho.mqtt.client as mqtt
 import time
 from openai import OpenAI
 
+from pydub import AudioSegment
+
 client = OpenAI(api_key='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')
 # import grovepi
 
