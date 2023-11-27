@@ -72,7 +72,7 @@ if __name__ == '__main__':
                 # button_stat = 0
         else:
             
-            mic_readings.append(mcp.read_adc(0))
+            mic_readings.append(mcp.read_adc(0) >> 2)
             # print(mic_readings)
             count += 1   
             print(count)
