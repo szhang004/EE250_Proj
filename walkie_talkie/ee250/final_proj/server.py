@@ -55,7 +55,7 @@ def client2_callback(client, userdata, msg):
 
     audio_file = open("output.mp3", "rb")
     transcript = openai.Audio.transcribe("whisper-1", audio_file)
-    client.publish("wt/server", transcript)
+    client.publish("wt/server", transcript['text'])
 
 
 if __name__ == '__main__':
