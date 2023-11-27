@@ -38,6 +38,7 @@ def client1_callback(client, userdata, msg):
     audio_file = open("output.mp3", "rb")
     transcript = openai.Audio.transcribe("whisper-1", audio_file)
     client.publish("wt/server", transcript['text'])
+    print(transcript['text'])
 
 
 def client2_callback(client, userdata, msg):
@@ -56,6 +57,7 @@ def client2_callback(client, userdata, msg):
     audio_file = open("output.mp3", "rb")
     transcript = openai.Audio.transcribe("whisper-1", audio_file)
     client.publish("wt/server", transcript['text'])
+    print(transcript['text'])
 
 
 if __name__ == '__main__':
