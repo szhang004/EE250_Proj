@@ -71,13 +71,15 @@ if __name__ == '__main__':
                 setText_norefresh("Speak Now")
                 # button_stat = 0
         else:
-            
+
+            # append 8 bit with reading
             mic_readings.append(mcp.read_adc(0) >> 2)
-            # print(mic_readings)
+
             count += 1  
             if count == 25000:
+                print(mic_readings)
                 msg = ''.join([chr(x) for x in mic_readings])
-                print(msg)
+                
                 client.publish("wt/client1", msg)
                 print("Message over")
                 setText_norefresh("Message over")
