@@ -93,16 +93,16 @@ def client2_callback(client, userdata, msg):
 def index():
     return render_template('index.html')
 
+with app.app_context():
+    if __name__ == '__main__':
+        #this section is covered in publisher_and_subscriber_example.py
+        client = mqtt.Client()
+        client.on_message = on_message
+        client.on_connect = on_connect
+        client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
+        client.loop_start()
 
-if __name__ == '__main__':
-    #this section is covered in publisher_and_subscriber_example.py
-    client = mqtt.Client()
-    client.on_message = on_message
-    client.on_connect = on_connect
-    client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
-    client.loop_start()
+        app.run(debug=False, host='0.0.0.0', port=5000)
 
-    app.run(debug=False, host='0.0.0.0', port=5000)
-
-    while True:
-        time.sleep(.1)
+        while True:
+            time.sleep(.1)
