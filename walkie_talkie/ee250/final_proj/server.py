@@ -24,7 +24,7 @@ def on_message(client, userdata, msg):
 def client1_callback(client, userdata, msg):
     byte_string = msg.payload
 
-    audio_bytes = bytes(byte_string, 'utf-8')
+    audio_bytes = str(byte_string, 'utf-8')
 
     # The format will depend on the format of your raw audio data
     audio_segment = AudioSegment.from_raw(io.BytesIO(audio_bytes), sample_width=2, frame_rate=44100, channels=2)
@@ -39,7 +39,7 @@ def client1_callback(client, userdata, msg):
 def client2_callback(client, userdata, msg):
     byte_string = msg.payload
 
-    audio_bytes = bytes(byte_string, 'utf-8')
+    audio_bytes = str(byte_string, 'utf-8')
 
     # The format will depend on the format of your raw audio data
     audio_segment = AudioSegment.from_raw(io.BytesIO(audio_bytes), sample_width=2, frame_rate=44100, channels=2)
