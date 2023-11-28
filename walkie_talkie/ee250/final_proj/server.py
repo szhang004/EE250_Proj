@@ -1,6 +1,5 @@
-from flask import Flask, jsonify, render_template, redirect, url_for
+from flask import Flask, request, jsonify
 
-import paho.mqtt.client as mqtt
 import time
 import openai
 from pydub import AudioSegment
@@ -12,7 +11,7 @@ app = Flask('final_proj')
 openai.api_key= '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'
 # import grovepi
 
-TRANSCRIPT = ''
+transcript = ''
 
 def process_audio(analog_data, filename="output.wav", sample_rate=50000):
     with wave.open(filename, "wb") as wav_file:
@@ -40,11 +39,6 @@ def process_audio(analog_data, filename="output.wav", sample_rate=50000):
     return transcript['text']
         
 
-def on_connect(client, userdata, flags, rc):
-    print("Connected to server (i.e., broker) with result code "+str(rc))
-
-    client.subscribe("wt/client", 1)
-    client.message_callback_add("wt/client", client_callback)
 
 
 @app.route('/')
@@ -53,28 +47,17 @@ def index():
     return render_template('index.html', user_input=TRANSCRIPT)
 
 
-@app.route('/client_callback')
-def client_callback(client, userdata, msg):
-    
-    byte_string = msg.payload
-    
-    global TRANSCRIPT
-    TRANSCRIPT = process_audio(byte_string)
-
-    client.publish("wt/server", TRANSCRIPT)
-
-    print(TRANSCRIPT)
-
-    return redirect(url_for('index'))
-    
- 
-client = mqtt.Client()
-client.on_connect = on_connect
-client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
-
+@app.route('/callback', methods=['POST'])
+def callback():
+    byte_string = request.get_json()
+    transcript = process_audio(byte_string)
+    res = jsonify({})
+    res.status_code = 201 # Status code for "created"
+    redirect(url_for('index'))
+    return res
 
 
 
 if __name__ == '__main__':
-    client.loop_start()
-    # app.run(debug=False)
+    app.run(host='172.20.10.6', port=5000)
+
