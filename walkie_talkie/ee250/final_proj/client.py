@@ -26,7 +26,7 @@ button = Button(16)
 SPI_PORT   = 0
 SPI_DEVICE = 0
 mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
-SERVER = 'http://172.20.10.6:5000'
+SERVER = 'http://10.0.2.15:5000'
 
 
 if __name__ == '__main__':
