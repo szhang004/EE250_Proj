@@ -1,4 +1,4 @@
-# from flask import Flask, jsonify, render_template, redirect, url_for, request
+from flask import Flask, jsonify, render_template, redirect, url_for, request
 
 import paho.mqtt.client as mqtt
 import time
@@ -29,9 +29,7 @@ mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 SERVER = 'http://172.20.10.6:5000'
 
 
-if __name__ == '__main__':
-    #this section is covered in publisher_and_subscriber_example.py
-
+def main():
     speak_on = False
     mic_readings = []
     count = 0
