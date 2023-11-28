@@ -42,7 +42,7 @@ def process_audio(analog_data, filename="output.wav", sample_rate=50000):
 @app.route('/')
 def index():
     global TRANSCRIPT
-    return render_template('index.html', user_input=TRANSCRIPT)
+    return render_template('index.html', user_input=transcript)
 
 
 @app.route('/callback', methods=['POST'])
