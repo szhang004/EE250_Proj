@@ -49,6 +49,7 @@ def index():
 def callback():
     byte_string = request.get_json()
     transcript = process_audio(byte_string)
+    print(transcript)
     res = jsonify({})
     res.status_code = 201 # Status code for "created"
     redirect(url_for('index'))
