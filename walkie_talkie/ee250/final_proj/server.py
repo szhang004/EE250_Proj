@@ -37,9 +37,7 @@ def process_audio(analog_data, filename="output.wav", sample_rate=50000):
 
     transcript = openai.Audio.transcribe("whisper-1", audio_file)
     return transcript['text']
-        
-
-
+    
 
 @app.route('/')
 def index():
@@ -53,9 +51,8 @@ def callback():
     transcript = process_audio(byte_string)
     res = jsonify({})
     res.status_code = 201 # Status code for "created"
-    redirect(url_for('index'))
+    # redirect(url_for('index'))
     return res
-
 
 
 if __name__ == '__main__':
