@@ -26,33 +26,11 @@ button = Button(16)
 SPI_PORT   = 0
 SPI_DEVICE = 0
 mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
-
-
-def on_connect(client, userdata, flags, rc):
-    print("Connected to server (i.e., broker) with result code "+str(rc))
-
-    #subscribe to topics of interest here
-    client.subscribe("wt/server", 1)
-    client.message_callback_add("wt/server", server_callback)
-
-def on_message(client, userdata, msg):
-    print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
-
-def server_callback(client, userdata, msg):
-    # global TRANSCRIPT
-    transcript = msg.payload.decode()
-    setText_norefresh(transcript)
-
+SERVER = 'http://172.20.10.6:5000'
 
 
 if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py
-    client = mqtt.Client()
-    client.on_message = on_message
-    client.on_connect = on_connect
-    client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
-    client.loop_start()
-
 
     speak_on = False
     mic_readings = []
@@ -83,13 +61,14 @@ if __name__ == '__main__':
                 print(mic_readings)
                 msg = ''.join([chr(x) for x in mic_readings])
                 
-                client.publish("wt/client", msg)
                 print("Message over")
                 setText_norefresh("Message over")
-            
+                response = requests.post(f'{SERVER}/callback', json=msg)
+                transcript = response.decode()
+                setText_norefresh(transcript)
+                
                 speak_on = False
                 count = 0
-                redirect(url_for('index'))
         
         
         time.sleep(20/1000000.0)
