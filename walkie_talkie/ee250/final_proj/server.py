@@ -65,7 +65,7 @@ def client_callback(client, userdata, msg):
 
     print(TRANSCRIPT)
 
-    # return redirect(url_for('index'))
+    return redirect(url_for('index'))
     
  
 client = mqtt.Client()
