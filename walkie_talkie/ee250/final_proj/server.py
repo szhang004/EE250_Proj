@@ -64,7 +64,7 @@ def client_callback(client, userdata, msg):
 
     client.publish("wt/server", TRANSCRIPT)
 
-    print(transcript)
+    print(TRANSCRIPT)
 
     return redirect(url_for('index'))
     
