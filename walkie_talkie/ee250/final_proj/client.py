@@ -29,7 +29,7 @@ mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 SERVER = 'http://172.20.10.6:5000'
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     speak_on = False
     mic_readings = []
     count = 0
