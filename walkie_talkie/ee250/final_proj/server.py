@@ -46,11 +46,8 @@ def process_audio(analog_data, filename="output.wav", sample_rate=50000):
 def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
 
-    client.subscribe("wt/client1", 1)
-    client.message_callback_add("wt/client1", client1_callback)
-
-    client.subscribe("wt/client2", 1)
-    client.message_callback_add("wt/client2", client2_callback)
+    client.subscribe("wt/client", 1)
+    client.message_callback_add("wt/client", client_callback)
 
 #Default message callback. Please use custom callbacks.
 def on_message(client, userdata, msg):
