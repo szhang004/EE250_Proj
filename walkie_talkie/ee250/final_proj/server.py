@@ -1,5 +1,5 @@
-from flask import Flask, requests, jsonify, render_template, redirect
-
+from flask import Flask, jsonify, render_template, redirect
+import requests
 import time
 import openai
 from pydub import AudioSegment
