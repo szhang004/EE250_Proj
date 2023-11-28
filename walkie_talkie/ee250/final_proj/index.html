@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MQTT Web Page</title>
+    <!-- Include Paho JavaScript library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+</head>
+<body>
+    <h1>MQTT Web Page</h1>
+    <div id="message"></div>
+
+    <script>
+        // Function to update the message on the web page
+        function updateMessage(message) {
+            document.getElementById('message').innerText = message;
+        }
+
+        // Create a MQTT client
+        var client = new Paho.MQTT.Client("localhost", 1883, "web_page_client");
+
+        // Set callback function for when a message is received
+        client.onMessageArrived = function (message) {
+            updateMessage(message.payloadString);
+        };
+
+        // Connect to the MQTT broker
+        client.connect({ onSuccess: function () {
+            // Subscribe to the desired MQTT topic
+            client.subscribe("your/mqtt/topic");
+        }});
+
+    </script>
+</body>
+</html>
