@@ -13,7 +13,7 @@ app = Flask('final_proj')
 openai.api_key= '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'
 # import grovepi
 
-transcript = ''
+TRANSCRIPT = ''
 message_lock = threading.Lock()
 
 def process_audio(analog_data, filename="output.wav", sample_rate=50000):
@@ -38,8 +38,8 @@ def process_audio(analog_data, filename="output.wav", sample_rate=50000):
 
         audio_file = open("output.mp3", "rb")
 
-        words = openai.Audio.transcribe("whisper-1", audio_file)
-        return words['text']
+        transcript = openai.Audio.transcribe("whisper-1", audio_file)
+        return transcript['text']
         
 
 
@@ -57,41 +57,27 @@ def on_message(client, userdata, msg):
     print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
 
 
-def client1_callback(client, userdata, msg):
+@app.route('/client_callback')
+def client_callback(client, userdata, msg):
     byte_string = msg.payload
 
     # audio_bytes = bytearray(byte_string)
-    global transcript
-    transcript = process_audio(byte_string)
-        
-    client.publish("wt/server", transcript)
-    
-    print(transcript)
-    publish()
+    global TRANSCRIPT
+    TRANSCRIPT = process_audio(byte_string)
 
-
-def client2_callback(client, userdata, msg):
-    byte_string = msg.payload
-
-    # audio_bytes = bytearray(byte_string)
-    global transcript
-    transcript = process_audio(byte_string)
-
-    client.publish("wt/server", transcript)
+    client.publish("wt/server", TRANSCRIPT)
 
     print(transcript)
-    publish()
+
+    return redirect(url_for('index'))
     
     
 @app.route('/')
 def index():
-    return render_template('index.html', user_input=transcript)
+    global TRANSCRIPT
+    return render_template('index.html', user_input=TRANSCRIPT)
 
 
-@app.route('/publish/message')
-def publish():
-    # return render_template('display.html', user_input=transcript)
-    return redirect(url_for ('index'))
 
 client = mqtt.Client()
 client.on_message = on_message
