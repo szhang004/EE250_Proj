@@ -22,6 +22,7 @@
 
         // Set callback function for when a message is received
         client.onMessageArrived = function (message) {
+            console.log("Received message:", message.payloadString);
             updateMessage(message.payloadString);
         };
 
