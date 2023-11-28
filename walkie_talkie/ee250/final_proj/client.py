@@ -69,8 +69,9 @@ def on_message(client, userdata, msg):
     print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
 
 def server_callback(client, userdata, msg):
-    transcript = msg.payload.decode()
-    setText_norefresh(transcript)
+    global TRANSCRIPT
+    TRANSCRIPT = msg.payload.decode()
+    setText_norefresh(TRANSCRIPT)
 
 @app.route('/')
 def index():
