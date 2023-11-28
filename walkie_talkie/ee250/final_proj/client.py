@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, requests
+from flask import Flask, jsonify, request
 
 import paho.mqtt.client as mqtt
 import time
@@ -61,7 +61,7 @@ if __name__ == '__main__':
                 
                 print("Message over")
                 setText_norefresh("Message over")
-                response = requests.post(f'{SERVER}/callback', json=msg)
+                response = request.post(f'{SERVER}/callback', json=msg)
                 time.sleep(.1)
                 transcript = response.decode()
                 setText_norefresh(transcript)
