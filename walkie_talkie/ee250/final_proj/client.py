@@ -64,6 +64,7 @@ if __name__ == '__main__':
                 print("Message over")
                 setText_norefresh("Message over")
                 response = requests.post(f'{SERVER}/callback', json=msg)
+                time.sleep(.1)
                 transcript = response.decode()
                 setText_norefresh(transcript)
                 
