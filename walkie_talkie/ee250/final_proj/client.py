@@ -119,7 +119,7 @@ if __name__ == '__main__':
                 
                 client.publish("wt/client", msg)
                 global TRANSCRIPT
-                TRANSCRIPT = process_audio(byte_string)]
+                TRANSCRIPT = process_audio(byte_string)
 
                 # print(TRANSCRIPT)
                 print("Message over")
