@@ -51,10 +51,10 @@ def callback():
     transcript = process_audio(byte_string)
     res = jsonify({})
     res.status_code = 201 # Status code for "created"
-    # redirect(url_for('index'))
+    redirect(url_for('index'))
     return res
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(host='172.20.10.6', port=5000)
 
