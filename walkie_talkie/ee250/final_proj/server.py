@@ -86,7 +86,5 @@ client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
 
 
 if __name__ == '__main__':
-
-    mqtt_thread = threading.Thread(target=client.loop_forever)
-    mqtt_thread.start()
+    client.loop_start()
     app.run(debug=False)
