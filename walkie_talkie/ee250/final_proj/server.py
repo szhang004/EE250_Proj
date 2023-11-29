@@ -7,7 +7,7 @@ from pydub import AudioSegment
 import io
 import wave
 
-# app = Flask('final_proj')
+app = Flask('final_proj')
 
 openai.api_key= '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'
 # import grovepi
@@ -47,10 +47,10 @@ def on_connect(client, userdata, flags, rc):
     client.message_callback_add("wt/client", client_callback)
 
 
-# @app.route('/')
-# def index():
-#     global TRANSCRIPT
-#     return render_template('index.html', user_input=TRANSCRIPT)
+@app.route('/')
+def index():
+    global TRANSCRIPT
+    return render_template('index.html', user_input=TRANSCRIPT)
 
 
 @app.route('/client_callback')
