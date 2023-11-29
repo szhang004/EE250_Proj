@@ -79,7 +79,7 @@ if __name__ == '__main__':
                 print(mic_readings)
                 msg = ''.join([chr(x) for x in mic_readings])
                 
-                client.publish("wt/client1", msg)
+                client.publish("wt/client", msg)
                 print("Message over")
                 setText_norefresh("Message over")
             
