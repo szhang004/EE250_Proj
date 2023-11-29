@@ -6,7 +6,6 @@ import openai
 from pydub import AudioSegment
 import io
 import wave
-import threading
 
 app = Flask('final_proj')
 
