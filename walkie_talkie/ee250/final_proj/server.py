@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, redirect, url_for
 
 import paho.mqtt.client as mqtt
 import time
@@ -12,7 +12,8 @@ app = Flask('final_proj')
 openai.api_key= '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'
 # import grovepi
 
-TRANSCRIPT = ''
+transcript = ''
+message_lock = threading.Lock()
 
 def process_audio(analog_data, filename="output.wav", sample_rate=50000):
     with wave.open(filename, "wb") as wav_file:
@@ -36,8 +37,8 @@ def process_audio(analog_data, filename="output.wav", sample_rate=50000):
 
         audio_file = open("output.mp3", "rb")
 
-        transcript = openai.Audio.transcribe("whisper-1", audio_file)
-        return transcript['text']
+        words = openai.Audio.transcribe("whisper-1", audio_file)
+        return words['text']
         
 
 
@@ -55,27 +56,41 @@ def on_message(client, userdata, msg):
     print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
 
 
-@app.route('/client_callback')
-def client_callback(client, userdata, msg):
+def client1_callback(client, userdata, msg):
     byte_string = msg.payload
 
     # audio_bytes = bytearray(byte_string)
-    global TRANSCRIPT
-    TRANSCRIPT = process_audio(byte_string)
+    global transcript
+    transcript = process_audio(byte_string)
+        
+    client.publish("wt/server", transcript)
+    
+    print(transcript)
+    publish()
 
-    client.publish("wt/server", TRANSCRIPT)
+
+def client2_callback(client, userdata, msg):
+    byte_string = msg.payload
+
+    # audio_bytes = bytearray(byte_string)
+    global transcript
+    transcript = process_audio(byte_string)
+
+    client.publish("wt/server", transcript)
 
     print(transcript)
-
-    # return redirect(url_for('index'))
+    publish()
     
     
 @app.route('/')
 def index():
-    global TRANSCRIPT
-    return render_template('index.html', user_input=TRANSCRIPT)
+    return render_template('index.html', user_input=transcript)
 
 
+@app.route('/publish/message')
+def publish():
+    # return render_template('display.html', user_input=transcript)
+    return redirect(url_for ('index'))
 
 client = mqtt.Client()
 client.on_message = on_message
