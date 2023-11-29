@@ -1,5 +1,3 @@
-from flask import Flask, jsonify, render_template, redirect, url_for, request
-
 import paho.mqtt.client as mqtt
 import time
 import sys
@@ -27,6 +25,8 @@ SPI_PORT   = 0
 SPI_DEVICE = 0
 mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
+
+
 def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
 
@@ -40,7 +40,7 @@ def on_message(client, userdata, msg):
 def server_callback(client, userdata, msg):
     transcript = msg.payload.decode()
     setText_norefresh(transcript)
-
+    
 
 if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py
@@ -49,8 +49,6 @@ if __name__ == '__main__':
     client.on_connect = on_connect
     client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
     client.loop_start()
-    app.run(debug=False)
-
 
     speak_on = False
     mic_readings = []
@@ -81,9 +79,7 @@ if __name__ == '__main__':
                 print(mic_readings)
                 msg = ''.join([chr(x) for x in mic_readings])
                 
-                client.publish("wt/client", msg)
-
-                # print(TRANSCRIPT)
+                client.publish("wt/client1", msg)
                 print("Message over")
                 setText_norefresh("Message over")
             
