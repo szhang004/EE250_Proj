@@ -78,4 +78,4 @@ client.connect(host="test.mosquitto.org", port=1883, keepalive=60)
 if __name__ == '__main__':
 
     client.loop_start()
-    # app.run(debug=False)
+    app.run(debug=False)
