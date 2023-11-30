@@ -8,7 +8,7 @@ import wave
 
 app = Flask('final_proj')
 
-openai.api_key= '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'
+openai.api_key= 'open_ai_key'
 # import grovepi
 
 transcript = ''
